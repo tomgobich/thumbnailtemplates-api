@@ -8,6 +8,11 @@ a quick start width using es6 in express
 npm start
 ```
 
+### use nodemon to start the server 
+```
+npm run nstart
+```
+
 ### use babel transform es6 => es5
 ```js
 npm run build 
@@ -22,3 +27,5 @@ npm run test
 ```js
 npm run serve
 ```
+
+### if you have any problem, please create an issue 

@@ -62,6 +62,6 @@ app.use((err, req, res, next) => {
 })
 
 // server
-let server = app.listen(3000, () => {
+let server = app.listen(8000, () => {
   console.log('server running http://localhost:3000')
 })

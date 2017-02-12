@@ -13,9 +13,37 @@ app.use(compress())
 app.use(helmet())
 app.use(logger('dev'))
 
-// routes 
-app.get('/', (req, res) => {
-  res.send(`hello world!`)
+// routes
+app.get('/thumbnails/trending', (req, res) => {
+  let data = [
+    {
+      id: "1",
+      alias: "1-no-mans-sky",
+      title: "No Man's Sky",
+      thumb: "http://www.thumbnailtemplates.com/images/thumbs/thumb-103-no-mans-sky-1.jpg",
+      likes: 2,
+      views: 48,
+      owner: { id: "1", alias: "1-tom-gobich", username: "tomgobich" },
+      comments: []
+    }
+  ]
+  res.send(data)
+})
+
+app.get('/thumbnails/new', (req, res) => {
+  let data = [
+    {
+      id: "2",
+      alias: "2-for-honor",
+      title: "For Honor",
+      thumb: "http://www.thumbnailtemplates.com/images/thumbs/thumb-103-no-mans-sky-1.jpg",
+      likes: 2,
+      views: 48,
+      owner: { id: "1", alias: "1-tom-gobich", username: "tomgobich" },
+      comments: []
+    }
+  ]
+  res.send(data)
 })
 
 // error handlers

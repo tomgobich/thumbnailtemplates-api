@@ -3,8 +3,17 @@ import bodyParser from 'body-parser'
 import compress from 'compression'
 import helmet from 'helmet'
 import logger from 'morgan'
+import mysql from 'mysql'
+import cors from 'cors';
 
 const app = express()
+
+const connection = mysql.createConnection({
+  host     : 'mysql.thumbnailtemplates.com',
+  user     : 'tomgob',
+  password : 'kbd%$vqeT23',
+  database : 'thumbtem'
+})
 
 // use middlewares
 app.use(bodyParser.json())
@@ -12,38 +21,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(compress())
 app.use(helmet())
 app.use(logger('dev'))
+app.use(cors({
+  origin: 'http://localhost:4200'
+}))
 
-// routes
-app.get('/thumbnails/trending', (req, res) => {
-  let data = [
-    {
-      id: "1",
-      alias: "1-no-mans-sky",
-      title: "No Man's Sky",
-      thumb: "http://www.thumbnailtemplates.com/images/thumbs/thumb-103-no-mans-sky-1.jpg",
-      likes: 2,
-      views: 48,
-      owner: { id: "1", alias: "1-tom-gobich", username: "tomgobich" },
-      comments: []
-    }
-  ]
-  res.send(data)
-})
+// Helpers
+const allVTemplates = 'SELECT * FROM VTemplates WHERE intImageSortOrder = 1';
 
-app.get('/thumbnails/new', (req, res) => {
-  let data = [
-    {
-      id: "2",
-      alias: "2-for-honor",
-      title: "For Honor",
-      thumb: "http://www.thumbnailtemplates.com/images/thumbs/thumb-103-no-mans-sky-1.jpg",
-      likes: 2,
-      views: 48,
-      owner: { id: "1", alias: "1-tom-gobich", username: "tomgobich" },
-      comments: []
-    }
-  ]
-  res.send(data)
+// Routes
+app.get('/thumbnails', (req, res) => {
+  let sql = `${allVTemplates} ORDER BY dteDate DESC`;
+
+  connection.query(sql, function (error, results, fields) {
+    if (error) throw error
+    res.send(results)
+  });
 })
 
 // error handlers
@@ -62,6 +54,6 @@ app.use((err, req, res, next) => {
 })
 
 // server
-let server = app.listen(8000, () => {
-  console.log('server running http://localhost:3000')
+let server = app.listen(3000, () => {
+  console.log('server running http://localhost:5000')
 })

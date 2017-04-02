@@ -1,0 +1,72 @@
+DROP VIEW VTemplates
+
+CREATE VIEW VTemplates
+GO
+SELECT
+   TT.intTemplateID
+  ,TT.strTitle            AS strTemplateTitle
+  ,TT.strAlias            AS strTemplateAlias
+  ,TT.strDescription      AS strTemplateDescription
+  ,TT.strKeywords         AS strTemplateKeywords
+  ,TT.dteDate             AS strTemplateUploadDate
+  ,TT.strDownload         AS strTemplateDownload
+  ,TT.intSortOrder        AS intTemplateSortOrder
+  ,TT.intViewCount        AS intTemplateViewCount
+  ,TT.strDownloadContents AS strTemplateDownloadContents
+  ,TT.dteLastUpdated      AS dteTemplateLastUpdatedDate
+  ,TT.dteReleaseDate      AS dteTemplateReleaseDate
+  ,TT.intStatusID         AS intTemplateStatusID
+
+  ,TC.intCategoryID
+  ,TC.strCategory
+
+  ,TF.intFontID
+  ,TF.strFont
+  ,TF.strFontDownload
+
+  ,TTF.intSortOrder       AS intFontSortOrder
+
+  ,TI.intImageID
+  ,TI.strTitle            AS strImageTitle
+  ,TI.strOwner            AS strImageOwner
+  ,TI.strAlias            AS strImageAlias
+  ,TI.dteDate             AS dteImageUploadDate
+  ,TI.blnIsFeatured       AS blnIsFeaturedImage
+  ,TI.intStatusID         AS intImageStatusID
+
+  ,TTI.intSortOrder       AS intImageSortOrder
+
+  ,TU.intUserID
+  ,TU.strUsername
+  ,TU.strEmail
+  ,TU.strAvatar
+  ,TU.strBio
+  ,TU.intStatusID         AS intUserStatusID
+FROM
+   TTemplates       AS TT
+  ,TTemplateFonts   AS TTF
+  ,TFonts           AS TF
+  ,TTemplateImages  AS TTI
+  ,TImages          AS TI
+  ,TCategories      AS TC
+  ,TStatus          AS TS
+  ,TUsers           AS TU
+WHERE
+      TT.intTemplateID    = TTF.intTemplateID
+  AND TTF.intFontID       = TF.intFontID
+  AND TT.intTemplateID    = TTI.intTemplateID
+  AND TTI.intImageID      = TI.intImageID
+  AND TT.intCategoryID    = TC.intCategoryID
+
+  AND TI.intStatusID      = TS.intStatusID
+  AND TI.intUserID        = TU.intUserID
+  AND TT.intUserID        = TU.intUserID
+  AND TT.intStatusID      = TS.intStatusID
+
+  AND TTI.intSortOrder   = 1
+  AND TI.intStatusID     = 1
+  AND TT.intStatusID     = 1
+  AND TU.intStatusID     = 1
+ORDER BY
+  TT.intSortOrder DESC
+GO

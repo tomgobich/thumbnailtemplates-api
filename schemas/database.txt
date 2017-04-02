@@ -77,3 +77,9 @@ TReportedUsers
   intReportedUserID
   intUserID
   strReason
+
+
+
+
+
+CREATE TABLE TTemplates

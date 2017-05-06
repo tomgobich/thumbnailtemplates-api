@@ -1,15 +1,12 @@
-DROP VIEW VTemplates
-
-CREATE VIEW VTemplates
-GO
 SELECT
-   TT.intTemplateID
+   TT.strTemplateID
   ,TT.strTitle            AS strTemplateTitle
   ,TT.strAlias            AS strTemplateAlias
   ,TT.strDescription      AS strTemplateDescription
   ,TT.strKeywords         AS strTemplateKeywords
   ,TT.dteDate             AS strTemplateUploadDate
   ,TT.strDownload         AS strTemplateDownload
+  ,TT.intDownloadCount    AS strTemplateDownloadCount
   ,TT.intSortOrder        AS intTemplateSortOrder
   ,TT.intViewCount        AS intTemplateViewCount
   ,TT.strDownloadContents AS strTemplateDownloadContents
@@ -20,13 +17,13 @@ SELECT
   ,TC.intCategoryID
   ,TC.strCategory
 
-  ,TF.intFontID
+  ,TF.strFontID
   ,TF.strFont
   ,TF.strFontDownload
 
   ,TTF.intSortOrder       AS intFontSortOrder
 
-  ,TI.intImageID
+  ,TI.strImageID
   ,TI.strTitle            AS strImageTitle
   ,TI.strOwner            AS strImageOwner
   ,TI.strAlias            AS strImageAlias
@@ -36,7 +33,7 @@ SELECT
 
   ,TTI.intSortOrder       AS intImageSortOrder
 
-  ,TU.intUserID
+  ,TU.strUserID
   ,TU.strUsername
   ,TU.strEmail
   ,TU.strAvatar
@@ -52,15 +49,15 @@ FROM
   ,TStatus          AS TS
   ,TUsers           AS TU
 WHERE
-      TT.intTemplateID    = TTF.intTemplateID
-  AND TTF.intFontID       = TF.intFontID
-  AND TT.intTemplateID    = TTI.intTemplateID
-  AND TTI.intImageID      = TI.intImageID
+      TT.strTemplateID    = TTF.strTemplateID
+  AND TTF.strFontID       = TF.strFontID
+  AND TT.strTemplateID    = TTI.strTemplateID
+  AND TTI.strImageID      = TI.strImageID
   AND TT.intCategoryID    = TC.intCategoryID
 
   AND TI.intStatusID      = TS.intStatusID
-  AND TI.intUserID        = TU.intUserID
-  AND TT.intUserID        = TU.intUserID
+  AND TI.strUserID        = TU.strUserID
+  AND TT.strUserID        = TU.strUserID
   AND TT.intStatusID      = TS.intStatusID
 
   AND TTI.intSortOrder   = 1
@@ -69,4 +66,3 @@ WHERE
   AND TU.intStatusID     = 1
 ORDER BY
   TT.intSortOrder DESC
-GO

@@ -17,7 +17,7 @@ const connection = mysql.createConnection({
 
 // use middlewares
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(compress())
 app.use(helmet())
 app.use(logger('dev'))
@@ -26,7 +26,8 @@ app.use(cors({
 }))
 
 // SQL Helpers
-const allVTemplates = 'SELECT * FROM VTemplates WHERE intImageSortOrder = 1';
+const allVTemplates = 'SELECT * FROM VTemplates WHERE intImageSortOrder = 1'
+const allVFeaturedTemplates = 'SELECT * FROM VFeaturedTemplates WHERE intImageSortOrder = 1'
 
 // Authentication Routes
 app.post('/user/create', (req, res) => {
@@ -52,6 +53,7 @@ app.post('/user/create', (req, res) => {
       if (error) throw error
       if (results) {
         console.log('User Created: ', results);
+        res.send(JSON.stringify(`Welcome to ThumbnailTemplates ${strUsername}!`))
       }
     })
   }
@@ -59,11 +61,43 @@ app.post('/user/create', (req, res) => {
 
 // Routes
 app.get('/thumbnails', (req, res) => {
-  let sql = `${allVTemplates} ORDER BY dteTemplateReleaseDate DESC, intTemplateSortOrder DESC`;
+  let sql = `${allVTemplates} ORDER BY dteTemplateReleaseDate DESC, intTemplateSortOrder DESC`
 
   connection.query(sql, (error, results, fields) => {
     if (error) throw error
     res.send(results)
+  })
+})
+
+app.get('/thumbnails/featured', (req, res) => {
+  let sql = `${allVFeaturedTemplates} ORDER BY intTemplateViewCount DESC, intTemplateSortOrder DESC`
+
+  connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+
+    console.log({results})
+    res.send(results)
+  })
+})
+
+app.get('/user/username/:uid', (req, res) => {
+  let uid = req.params.uid
+  console.log({uid})
+  let sql = `SELECT strUsername FROM TUsers WHERE strUserID = '${uid}'`
+
+  connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    res.send({username: results[0].strUsername})
+  })
+})
+
+app.post('/user/username/unique', (req, res) => {
+  let username = escapeHtml(req.body.username)
+  let sql = `SELECT strUsername FROM TUsers WHERE strUsername = '${username}'`
+
+  connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    res.send({ unique: results.length === 0 ? true : false })
   })
 })
 
@@ -74,6 +108,18 @@ function checkNullOrEmpty(string) {
 
 function strBlnToNum(bln) {
   return bln ? 1: 0
+}
+
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
 // error handlers

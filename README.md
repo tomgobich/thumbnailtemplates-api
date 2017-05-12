@@ -1,5 +1,7 @@
-# express-es6-boilerplate
-a quick start width using es6 in express
+# ThumbnailTemplates API
+
+API used for ThumbnailTemplates Build Version 4.
+
 
 ## Usage
 
@@ -27,5 +29,3 @@ npm run test
 ```js
 npm run serve
 ```
-
-### if you have any problem, please create an issue 

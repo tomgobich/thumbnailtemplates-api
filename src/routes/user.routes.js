@@ -1,3 +1,4 @@
+import DB from '../utilities/database'
 import Utilities from '../utilities/utilities'
 
 // Gets the details of a single user
@@ -6,7 +7,7 @@ exports.getSingleUser = ((req, res) => {
   console.log({uid})
   let sql = `SELECT strUsername FROM TUsers WHERE strUserID = '${uid}'`
 
-  connection.query(sql, (error, results, fields) => {
+  DB.connection.query(sql, (error, results, fields) => {
     if (error) throw error
     res.send({username: results[0].strUsername})
   })
@@ -17,7 +18,7 @@ exports.postIsUniqueUser = ((req, res) => {
   let username = escapeHtml(req.body.username)
   let sql = `SELECT strUsername FROM TUsers WHERE strUsername = '${username}'`
 
-  connection.query(sql, (error, results, fields) => {
+  DB.connection.query(sql, (error, results, fields) => {
     if (error) throw error
     res.send({ unique: results.length === 0 ? true : false })
   })
@@ -43,7 +44,7 @@ exports.postCreateUser = ((req, res) => {
     let sql  = `INSERT INTO TUsers (strUserID, strUsername, strEmail, blnEmailVerified, strPassword, strAvatar, strBio, strYouTube, strTwitter, strFacebook, intStatusID) ` +
                `VALUES ('${strUserID}', '${strUsername}', '${strEmail}', ${blnEmailVerified}, '${strPassword}', '${strAvatar}', '${strBio}', '${strYouTube}', '${strTwitter}', '${strFacebook}', ${intStatusID})`
 
-    connection.query(sql, (error, results, fields) => {
+    DB.connection.query(sql, (error, results, fields) => {
       if (error) throw error
         console.log('User Created: ', results);
         res.send(JSON.stringify(`Welcome to ThumbnailTemplates ${strUsername}!`))

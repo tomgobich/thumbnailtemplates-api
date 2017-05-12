@@ -6,7 +6,7 @@ SELECT
   ,TT.strKeywords         AS strTemplateKeywords
   ,TT.dteDate             AS strTemplateUploadDate
   ,TT.strDownload         AS strTemplateDownload
-  ,TT.intDownloadCount    AS strTemplateDownloadCount
+  ,TT.intDownloadCount    AS intTemplateDownloadCount
   ,TT.intSortOrder        AS intTemplateSortOrder
   ,TT.intViewCount        AS intTemplateViewCount
   ,TT.strDownloadContents AS strTemplateDownloadContents
@@ -39,7 +39,7 @@ SELECT
   ,TU.strAvatar
   ,TU.strBio
   ,TU.intStatusID         AS intUserStatusID
-  ,(SELECT
+  ,(SELECT 
       COUNT(*)
     FROM
        TUserTemplateLikes AS TUTL
@@ -70,5 +70,7 @@ WHERE
   AND TI.intStatusID     = 1
   AND TT.intStatusID     = 1
   AND TU.intStatusID     = 1
+  AND DATEDIFF(NOW(), TT.dteReleaseDate) < 728
 ORDER BY
-  TT.intSortOrder DESC
+   intTemplateLikeCount DESC
+  ,TT.intSortOrder DESC

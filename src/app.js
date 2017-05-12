@@ -5,14 +5,16 @@ import helmet from 'helmet'
 import logger from 'morgan'
 import mysql from 'mysql'
 import cors from 'cors';
+import dotenv from 'dotenv'
 
 const app = express()
+dotenv.config()
 
 const connection = mysql.createConnection({
-  host     : 'mysql.thumbnailtemplates.com',
-  user     : 'tomgob',
-  password : 'kbd%$vqeT23',
-  database : 'vfour'
+  host     : process.env.DB_HOST,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASS,
+  database : process.env.DB
 })
 
 // use middlewares
@@ -28,6 +30,7 @@ app.use(cors({
 // SQL Helpers
 const allVTemplates = 'SELECT * FROM VTemplates WHERE intImageSortOrder = 1'
 const allVFeaturedTemplates = 'SELECT * FROM VFeaturedTemplates WHERE intImageSortOrder = 1'
+const allVMostLikedTemplates = 'SELECT * FROM VMostLikedTemplates WHERE intImageSortOrder = 1'
 
 // Authentication Routes
 app.post('/user/create', (req, res) => {
@@ -44,6 +47,9 @@ app.post('/user/create', (req, res) => {
      ,strTwitter        = user.strTwitter     || ''
      ,strFacebook       = user.strFacebook    || ''
      ,intStatusID       = user.intStatusID    || 1
+
+  console.log({user})
+  console.log({strUserID, strUsername, strEmail, blnEmailVerified, strPassword, strAvatar, strBio, strYouTube, strTwitter, strFacebook, intStatusID})
 
   if ((!checkNullOrEmpty(strEmail)) && (!checkNullOrEmpty(strUserID))) {
     let sql  = `INSERT INTO TUsers (strUserID, strUsername, strEmail, blnEmailVerified, strPassword, strAvatar, strBio, strYouTube, strTwitter, strFacebook, intStatusID) ` +
@@ -75,6 +81,17 @@ app.get('/thumbnails/featured', (req, res) => {
   connection.query(sql, (error, results, fields) => {
     if (error) throw error
 
+    console.log({results})
+    res.send(results)
+  })
+})
+
+app.get('/thumbnails/liked', (req, res) => {
+  let sql = `${allVMostLikedTemplates} ORDER BY intTemplateLikeCount DESC, intTemplateSortOrder DESC`
+
+  connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    
     console.log({results})
     res.send(results)
   })

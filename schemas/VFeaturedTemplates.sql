@@ -39,6 +39,12 @@ SELECT
   ,TU.strAvatar
   ,TU.strBio
   ,TU.intStatusID         AS intUserStatusID
+  ,(SELECT 
+      COUNT(*)
+    FROM
+       TUserTemplateLikes AS TUTL
+    WHERE
+      TUTL.strTemplateID = TT.strTemplateID) AS intTemplateLikeCount
 FROM
    TTemplates       AS TT
   ,TTemplateFonts   AS TTF

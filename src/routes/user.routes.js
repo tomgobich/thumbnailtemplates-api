@@ -10,13 +10,27 @@ exports.getUserDetailsByUserID = ((req, res) => {
 
   DB.connection.query(sql, (error, results, fields) => {
     if (error) throw error
-    res.send({user: results})
+    res.send({ user: results[0] })
   })
 })
 
 exports.getUserProfileByUserID = ((req, res) => {
   let uid = Utilities.escapeHtml(req.params.uid)
   // Awaiting view creation
+})
+
+
+
+// Gets a single user's details by strUsername
+exports.getUserDetailsByUsername = ((req, res) => {
+  let username = Utilities.escapeHtml(req.params.username)
+  let sql = `SELECT * FROM TUsers WHERE strUsername = '${username}'`
+
+  DB.connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    res.send({ user: results[0] })
+    return
+  })
 })
 
 
@@ -28,7 +42,7 @@ exports.getUserUsername = ((req, res) => {
 
   DB.connection.query(sql, (error, results, fields) => {
     if (error) throw error
-    res.send({username: results[0].strUsername})
+    res.send({ username: results[0].strUsername })
   })
 })
 

@@ -56,17 +56,18 @@ import ThumbnailRouter from './routes/thumbnail.routes'
 import UserRouter from './routes/user.routes'
 
 // Thumbnail GET routes
-app.get('/thumbnails',            ThumbnailRouter.getThumbnails)
-app.get('/thumbnails/featured',   ThumbnailRouter.getFeaturedThumbnails)
-app.get('/thumbnails/liked',      ThumbnailRouter.getMostLikedThumbnails)
+app.get('/thumbnails',                    ThumbnailRouter.getThumbnails)
+app.get('/thumbnails/featured',           ThumbnailRouter.getFeaturedThumbnails)
+app.get('/thumbnails/liked',              ThumbnailRouter.getMostLikedThumbnails)
 
-// User GET routes
-app.get('/user/:uid',             UserRouter.getUserDetailsByUserID)
-app.get('/user/username/:uid',    UserRouter.getUserUsername)
+// User GET routes. Route = /value_to_get/getting_by/getting_by_value
+app.get('/getuser/id/:uid',               UserRouter.getUserDetailsByUserID)
+app.get('/getuser/username/:username',    UserRouter.getUserDetailsByUsername)
+app.get('/getusername/id/:uid',           UserRouter.getUserUsername)
 
 // User POST routes
-app.post('/user/create',          UserRouter.postCreateUser)
-app.post('/user/username/unique', UserRouter.postIsUniqueUser)
+app.post('/user/create',                  UserRouter.postCreateUser)
+app.post('/user/username/unique',         UserRouter.postIsUniqueUser)
 
 
 

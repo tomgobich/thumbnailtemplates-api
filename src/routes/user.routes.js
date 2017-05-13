@@ -63,19 +63,19 @@ exports.postIsUniqueUser = ((req, res) => {
 
 // Creates a user from provided details
 exports.postCreateUser = ((req, res) => {
-  let user = Utilities.escapeHtml(req.body)
+  let user = req.body
 
-  let strUserID         = user.strUserID
-     ,strUsername       = user.strUsername
-     ,strEmail          = user.strEmail
-     ,blnEmailVerified  = user.blnEmailVerified || 0
-     ,strPassword       = user.strPassword      || ''
-     ,strAvatar         = user.strAVatar        || ''
-     ,strBio            = user.strBio           || ''
-     ,strYouTube        = user.strYouTube       || ''
-     ,strTwitter        = user.strTwitter       || ''
-     ,strFacebook       = user.strFacebook      || ''
-     ,intStatusID       = user.intStatusID      || 1
+  let strUserID         = Utilities.escapeHtml(user.strUserID)
+  let strUsername       = Utilities.escapeHtml(user.strUsername)
+  let strEmail          = Utilities.escapeHtml(user.strEmail)
+  let blnEmailVerified  = Utilities.escapeHtml(user.blnEmailVerified) || 0
+  let strPassword       = Utilities.escapeHtml(user.strPassword)      || ''
+  let strAvatar         = Utilities.escapeHtml(user.strAVatar)        || ''
+  let strBio            = Utilities.escapeHtml(user.strBio)           || ''
+  let strYouTube        = Utilities.escapeHtml(user.strYouTube)       || ''
+  let strTwitter        = Utilities.escapeHtml(user.strTwitter)       || ''
+  let strFacebook       = Utilities.escapeHtml(user.strFacebook)      || ''
+  let intStatusID       = Utilities.escapeHtml(user.intStatusID)      || 1
 
   if ((!Utilities.checkNullOrEmpty(strEmail)) && (!Utilities.checkNullOrEmpty(strUserID))) {
     let sql  = `INSERT INTO TUsers (strUserID, strUsername, strEmail, blnEmailVerified, strPassword, strAvatar, strBio, strYouTube, strTwitter, strFacebook, intStatusID) ` +
@@ -83,8 +83,11 @@ exports.postCreateUser = ((req, res) => {
 
     DB.connection.query(sql, (error, results, fields) => {
       if (error) throw error
-        console.log('User Created: ', results);
-        res.send(JSON.stringify(`Welcome to ThumbnailTemplates ${strUsername}!`))
+      
+      res.send(JSON.stringify({
+        data: results,
+        message: `Welcome to ThumbnailTemplates ${strUsername}!`
+      }))
     })
   }
   else {

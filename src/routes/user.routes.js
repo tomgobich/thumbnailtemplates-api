@@ -1,10 +1,29 @@
 import DB from '../utilities/database'
 import Utilities from '../utilities/utilities'
 
-// Gets the details of a single user
-exports.getSingleUser = ((req, res) => {
-  let uid = req.params.uid
-  console.log({uid})
+
+
+// Gets a single user's details by strUserID
+exports.getUserDetailsByUserID = ((req, res) => {
+  let uid = Utilities.escapeHtml(req.params.uid)
+  let sql = `SELECT * FROM TUsers WHERE strUserID = '${uid}'`
+
+  DB.connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    res.send({user: results})
+  })
+})
+
+exports.getUserProfileByUserID = ((req, res) => {
+  let uid = Utilities.escapeHtml(req.params.uid)
+  // Awaiting view creation
+})
+
+
+
+// Gets the username of a single user
+exports.getUserUsername = ((req, res) => {
+  let uid = Utilities.escapeHtml(req.params.uid)
   let sql = `SELECT strUsername FROM TUsers WHERE strUserID = '${uid}'`
 
   DB.connection.query(sql, (error, results, fields) => {
@@ -13,9 +32,11 @@ exports.getSingleUser = ((req, res) => {
   })
 })
 
+
+
 // Returns whether provided username is unique
 exports.postIsUniqueUser = ((req, res) => {
-  let username = escapeHtml(req.body.username)
+  let username = Utilities.escapeHtml(req.body.username)
   let sql = `SELECT strUsername FROM TUsers WHERE strUsername = '${username}'`
 
   DB.connection.query(sql, (error, results, fields) => {
@@ -24,9 +45,11 @@ exports.postIsUniqueUser = ((req, res) => {
   })
 })
 
+
+
 // Creates a user from provided details
 exports.postCreateUser = ((req, res) => {
-  let user = req.body
+  let user = Utilities.escapeHtml(req.body)
 
   let strUserID         = user.strUserID
      ,strUsername       = user.strUsername

@@ -3,6 +3,8 @@ exports.checkNullOrEmpty = (string => {
   return string === null || string === undefined || string === ''
 })
 
+
+
 // Replaces certain special characters
 exports.escapeHtml = (text => {
   var map = {

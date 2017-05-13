@@ -2,6 +2,8 @@ import DB from '../utilities/database'
 import Utilities from '../utilities/utilities'
 import Helpers from '../utilities/helpers'
 
+
+
 // Gets full thumbnail listing
 exports.getThumbnails = ((req, res) => {
   let sql = `${Helpers.allVTemplates} ORDER BY dteTemplateReleaseDate DESC, intTemplateSortOrder DESC`
@@ -12,6 +14,8 @@ exports.getThumbnails = ((req, res) => {
   })
 })
 
+
+
 // Gets featured thumbnail listing
 exports.getFeaturedThumbnails = ((req, res) => {
   let sql = `${Helpers.allVFeaturedTemplates} ORDER BY intTemplateViewCount DESC, intTemplateSortOrder DESC`
@@ -21,6 +25,8 @@ exports.getFeaturedThumbnails = ((req, res) => {
     res.send(results)
   })
 })
+
+
 
 // Gets most liked thumbnail listing
 exports.getMostLikedThumbnails = ((req, res) => {

@@ -23,6 +23,32 @@ app.use(cors({
 
 // ------------------------------------------------------------
 //
+// TODOs
+//
+// ------------------------------------------------------------
+
+// User Facing todos
+// TODO: Create VUserTemplates
+// TODO: Create VUserLikedTemplates
+// TODO: Create VUserDownloadedTemplates
+
+// Admin todos
+// TODO: Create VReportedThumbnails
+// TODO: Create VReportedUsers
+// TODO: Create VRecentlyActiveUsers
+// TODO: Create VRecentlyCreatedUsers
+// TODO: Create VMostDownloadsUsers
+// TODO: Create VMostUploadUsers
+
+// DB structure expansions
+// TODO: Create TUserTemplateDownloads -> Add count to views
+// TODO: Create TUserTemplateViews -> Add count to views (replace table line count, set old counts to oldData user account)
+// TODO: Create columns for user profile link clicks
+// TODO: Create columns for user profile views
+
+
+// ------------------------------------------------------------
+//
 // API Routes
 //
 // ------------------------------------------------------------
@@ -30,15 +56,16 @@ import ThumbnailRouter from './routes/thumbnail.routes'
 import UserRouter from './routes/user.routes'
 
 // Thumbnail GET routes
-app.get('/thumbnails',          ThumbnailRouter.getThumbnails)
-app.get('/thumbnails/featured', ThumbnailRouter.getFeaturedThumbnails)
-app.get('/thumbnails/liked',    ThumbnailRouter.getMostLikedThumbnails)
+app.get('/thumbnails',            ThumbnailRouter.getThumbnails)
+app.get('/thumbnails/featured',   ThumbnailRouter.getFeaturedThumbnails)
+app.get('/thumbnails/liked',      ThumbnailRouter.getMostLikedThumbnails)
 
 // User GET routes
-app.get('/user/username/:uid',    UserRouter.getSingleUser)
+app.get('/user/:uid',             UserRouter.getUserDetailsByUserID)
+app.get('/user/username/:uid',    UserRouter.getUserUsername)
 
 // User POST routes
-app.post('/user/create', UserRouter.postCreateUser)
+app.post('/user/create',          UserRouter.postCreateUser)
 app.post('/user/username/unique', UserRouter.postIsUniqueUser)
 
 

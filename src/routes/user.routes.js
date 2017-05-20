@@ -61,6 +61,18 @@ exports.postIsUniqueUser = ((req, res) => {
 
 
 
+exports.postIsUniqueEmail = ((req, res) => {
+  let email = Utilities.escapeHtml(req.body.email)
+  let sql = `SELECT strEmail FROM TUsers WHERE strEmail = '${email}'`
+
+  DB.connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    res.send({ unique: results.length === 0 ? true : false })
+  })
+})
+
+
+
 // Creates a user from provided details
 exports.postCreateUser = ((req, res) => {
   let user = req.body
@@ -83,7 +95,7 @@ exports.postCreateUser = ((req, res) => {
 
     DB.connection.query(sql, (error, results, fields) => {
       if (error) throw error
-      
+
       res.send(JSON.stringify({
         data: results,
         message: `Welcome to ThumbnailTemplates ${strUsername}!`

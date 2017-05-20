@@ -60,7 +60,7 @@ app.get('/thumbnails',                    ThumbnailRouter.getThumbnails)
 app.get('/thumbnails/featured',           ThumbnailRouter.getFeaturedThumbnails)
 app.get('/thumbnails/liked',              ThumbnailRouter.getMostLikedThumbnails)
 
-// User GET routes. Route = /value_to_get/getting_by/getting_by_value
+// User GET routes
 app.get('/getuser/id/:uid',               UserRouter.getUserDetailsByUserID)
 app.get('/getuser/username/:username',    UserRouter.getUserDetailsByUsername)
 app.get('/getusername/id/:uid',           UserRouter.getUserUsername)
@@ -68,6 +68,7 @@ app.get('/getusername/id/:uid',           UserRouter.getUserUsername)
 // User POST routes
 app.post('/user/create',                  UserRouter.postCreateUser)
 app.post('/user/username/unique',         UserRouter.postIsUniqueUser)
+app.post('/user/email/unique',            UserRouter.postIsUniqueEmail)
 
 
 

@@ -56,9 +56,9 @@ import ThumbnailRouter from './routes/thumbnail.routes'
 import UserRouter from './routes/user.routes'
 
 // Thumbnail GET routes
-app.get('/thumbnails',                    ThumbnailRouter.getThumbnails)
-app.get('/thumbnails/featured',           ThumbnailRouter.getFeaturedThumbnails)
-app.get('/thumbnails/liked',              ThumbnailRouter.getMostLikedThumbnails)
+app.get('/thumbnails/all/:limit',         ThumbnailRouter.getThumbnails)
+app.get('/thumbnails/featured/:limit',    ThumbnailRouter.getFeaturedThumbnails)
+app.get('/thumbnails/liked/:limit',       ThumbnailRouter.getMostLikedThumbnails)
 
 // User GET routes
 app.get('/getuser/id/:uid',               UserRouter.getUserDetailsByUserID)

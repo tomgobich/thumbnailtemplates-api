@@ -56,19 +56,20 @@ import ThumbnailRouter from './routes/thumbnail.routes'
 import UserRouter from './routes/user.routes'
 
 // Thumbnail GET routes
-app.get('/thumbnails/all/:limit',         ThumbnailRouter.getThumbnails)
-app.get('/thumbnails/featured/:limit',    ThumbnailRouter.getFeaturedThumbnails)
-app.get('/thumbnails/liked/:limit',       ThumbnailRouter.getMostLikedThumbnails)
+app.get('/thumbnails/all/:limit/:skip/:intCategoryID',    ThumbnailRouter.getThumbnails)
+app.get('/thumbnails/featured/:limit',                    ThumbnailRouter.getFeaturedThumbnails)
+app.get('/thumbnails/liked/:limit',                       ThumbnailRouter.getMostLikedThumbnails)
+app.get('/thumbnails/categories',                         ThumbnailRouter.getCategories)
 
 // User GET routes
-app.get('/getuser/id/:uid',               UserRouter.getUserDetailsByUserID)
-app.get('/getuser/username/:username',    UserRouter.getUserDetailsByUsername)
-app.get('/getusername/id/:uid',           UserRouter.getUserUsername)
+app.get('/getuser/id/:uid',                               UserRouter.getUserDetailsByUserID)
+app.get('/getuser/username/:username',                    UserRouter.getUserDetailsByUsername)
+app.get('/getusername/id/:uid',                           UserRouter.getUserUsername)
 
 // User POST routes
-app.post('/user/create',                  UserRouter.postCreateUser)
-app.post('/user/username/unique',         UserRouter.postIsUniqueUser)
-app.post('/user/email/unique',            UserRouter.postIsUniqueEmail)
+app.post('/user/create',                                  UserRouter.postCreateUser)
+app.post('/user/username/unique',                         UserRouter.postIsUniqueUser)
+app.post('/user/email/unique',                            UserRouter.postIsUniqueEmail)
 
 
 

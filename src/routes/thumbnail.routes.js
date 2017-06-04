@@ -8,10 +8,13 @@ import Helpers from '../utilities/helpers'
 exports.getThumbnails = ((req, res) => {
   let limit = Utilities.escapeHtml(req.params.limit)
   let skip = Utilities.escapeHtml(req.params.skip)
-  let intCategoryID = Utilities.escapeHtml(req.params.intCategoryID)
+  let category = Utilities.escapeHtml(req.params.category)
   let sql = Helpers.allVTemplates
 
-  sql += intCategoryID && !isNaN(intCategoryID) ? ` AND intCategoryID = ${intCategoryID} ` : ''
+  if (category != 'all') {
+    sql += category ? ` AND strCategory = '${category}' ` : ''
+  }
+
   sql += ' ORDER BY dteTemplateReleaseDate DESC, intTemplateSortOrder DESC '
 
   if (limit && !isNaN(limit)) {
@@ -19,7 +22,7 @@ exports.getThumbnails = ((req, res) => {
     sql += limit
   }
 
-  console.log({sql})
+  console.log({category, sql})
 
   DB.connection.query(sql, (error, results, fields) => {
     if (error) throw error

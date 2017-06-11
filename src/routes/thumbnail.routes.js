@@ -17,16 +17,22 @@ exports.getThumbnails = ((req, res) => {
 
   sql += ' ORDER BY dteTemplateReleaseDate DESC, intTemplateSortOrder DESC '
 
-  if (limit && !isNaN(limit)) {
-    sql += skip && !isNaN(skip) ? ` LIMIT ${skip}, ` : ' LIMIT '
-    sql += limit
-  }
+  let countSQL = Helpers.allVTemplatesCount
+  DB.connection.query(countSQL, (countErr, countResults, countFields) => {
+    let count = countResults[0].rowCount
+    console.log({count})
 
-  console.log({category, sql})
+    if (limit && !isNaN(limit)) {
+      sql += skip && !isNaN(skip) ? ` LIMIT ${skip}, ` : ' LIMIT '
+      sql += limit
+    }
 
-  DB.connection.query(sql, (error, results, fields) => {
-    if (error) throw error
-    res.send(results)
+    console.log({sql, countSQL})
+
+    DB.connection.query(sql, (error, results, fields) => {
+      if (error) throw error
+      res.send({results, count})
+    })
   })
 })
 

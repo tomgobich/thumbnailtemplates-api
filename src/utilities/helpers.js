@@ -1,3 +1,8 @@
-exports.allVTemplates = 'SELECT * FROM VTemplates WHERE intImageSortOrder = 1'
-exports.allVFeaturedTemplates = 'SELECT * FROM VFeaturedTemplates WHERE intImageSortOrder = 1'
-exports.allVMostLikedTemplates = 'SELECT * FROM VMostLikedTemplates WHERE intImageSortOrder = 1'
+const selectAll = 'SELECT * FROM '
+const selectCount = 'SELECT COUNT(*) AS rowCount FROM '
+const limitImage = ' intImageSortOrder = 1'
+
+exports.allVTemplates = `${selectAll} VTemplates WHERE ${limitImage}`
+exports.allVTemplatesCount = `${selectCount} VTemplates WHERE ${limitImage}`
+exports.allVFeaturedTemplates = `${selectAll} VFeaturedTemplates WHERE ${limitImage}`
+exports.allVMostLikedTemplates = `${selectAll} VMostLikedTemplates WHERE ${limitImage}`

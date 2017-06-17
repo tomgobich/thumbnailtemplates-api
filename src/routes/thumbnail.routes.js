@@ -3,6 +3,25 @@ import Utilities from '../utilities/utilities'
 import Helpers from '../utilities/helpers'
 
 
+exports.getThumbnailById = ((req, res) => {
+  let Id = Utilities.escapeHtml(req.params.id)
+  let sql = `${Helpers.allVTemplates} AND strTemplateId = '${Id}'`
+
+  DB.connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    res.send(results[0])
+  })
+})
+
+exports.getThumbnailByAlias = ((req, res) => {
+  let alias = Utilities.escapeHtml(req.params.alias)
+  let sql = `${Helpers.allVTemplates} AND strTemplateAlias = '${alias}'`
+
+  DB.connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    res.send(results[0])
+  })
+})
 
 // Gets full thumbnail listing
 exports.getThumbnails = ((req, res) => {
@@ -20,14 +39,11 @@ exports.getThumbnails = ((req, res) => {
   let countSQL = Helpers.allVTemplatesCount
   DB.connection.query(countSQL, (countErr, countResults, countFields) => {
     let count = countResults[0].rowCount
-    console.log({count})
 
     if (limit && !isNaN(limit)) {
       sql += skip && !isNaN(skip) ? ` LIMIT ${skip}, ` : ' LIMIT '
       sql += limit
     }
-
-    console.log({sql, countSQL})
 
     DB.connection.query(sql, (error, results, fields) => {
       if (error) throw error

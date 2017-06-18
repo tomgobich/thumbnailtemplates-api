@@ -4,8 +4,8 @@ import Helpers from '../utilities/helpers'
 
 
 exports.getThumbnailById = ((req, res) => {
-  let Id = Utilities.escapeHtml(req.params.id)
-  let sql = `${Helpers.allVTemplates} AND strTemplateId = '${Id}'`
+  let id = Utilities.escapeHtml(req.params.id)
+  let sql = `${Helpers.allVTemplates} AND strTemplateId = '${id}'`
 
   DB.connection.query(sql, (error, results, fields) => {
     if (error) throw error
@@ -20,6 +20,16 @@ exports.getThumbnailByAlias = ((req, res) => {
   DB.connection.query(sql, (error, results, fields) => {
     if (error) throw error
     res.send(results[0])
+  })
+})
+
+exports.getThumbnailImagesById = ((req, res) => {
+  let id = Utilities.escapeHtml(req.params.id)
+  let sql = `${Helpers.allThumbnailImages} WHERE strTemplateID = '${id}'`
+
+  DB.connection.query(sql, (error, results, fields) => {
+    if (error) throw error
+    res.send(results)
   })
 })
 
